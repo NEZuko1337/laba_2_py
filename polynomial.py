@@ -13,11 +13,16 @@ class Polynomial:
                 self.coefficients = arg.coefficients.copy()
             elif isinstance(arg, (list, tuple)):
                 self.coefficients = list(arg)
+            else:
+                self.coefficients = arg
+
         else:
             self.coefficients = list(args)
 
     def __str__(self):
         terms = []
+        if isinstance(self.coefficients, (int, float)):
+            return str(self.coefficients)
         for degree, coeff in enumerate(self.coefficients):
             if coeff != 0:
                 sign = "+" if coeff > 0 else "-"
