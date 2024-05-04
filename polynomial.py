@@ -92,10 +92,32 @@ class Polynomial:
             result_coeffs = [coeff * other for coeff in self.coefficients]
             return Polynomial(result_coeffs)
         elif isinstance(other, Polynomial):
-            result_coeffs = [0] * (len(self.coefficients) + len(other.coefficients) - 1)
-            for i, coeff1 in enumerate(self.coefficients):
-                for j, coeff2 in enumerate(other.coefficients):
-                    result_coeffs[i + j] += coeff1 * coeff2
+            if isinstance(other.coefficients, int) and isinstance(self.coefficients, int):
+                result_coeffs = [0] * (self.coefficients + other.coefficients)
+                if len(result_coeffs):
+                    for i, coeff1 in enumerate([self.coefficients]):
+                        for j, coeff2 in enumerate([other.coefficients]):
+                            result_coeffs[i + j] += coeff1 * coeff2
+                else:
+                    result_coeffs = [0]
+
+            elif isinstance(self.coefficients, int):
+                result_coeffs = [0] * (self.coefficients + len(other.coefficients))
+                for i, coeff1 in enumerate([self.coefficients]):
+                    for j, coeff2 in enumerate(other.coefficients):
+                        result_coeffs[i + j] += coeff1 * coeff2
+
+            elif isinstance(other.coefficients, int):
+                result_coeffs = [0] * (len(self.coefficients) + other.coefficients)
+                for i, coeff1 in enumerate(self.coefficients):
+                    for j, coeff2 in enumerate([other.coefficients]):
+                        result_coeffs[i + j] += coeff1 * coeff2
+
+            else:
+                result_coeffs = [0] * (len(self.coefficients) + len(other.coefficients) - 1)
+                for i, coeff1 in enumerate(self.coefficients):
+                    for j, coeff2 in enumerate(other.coefficients):
+                        result_coeffs[i + j] += coeff1 * coeff2
             return Polynomial(result_coeffs)
 
     def __eq__(self, other):
